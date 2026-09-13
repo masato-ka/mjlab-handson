@@ -31,6 +31,7 @@ Google Colabでは実行できません(ディスプレイとリアルタイム�
 """
 import argparse
 import math
+from dataclasses import dataclass
 from pathlib import Path
 
 import mujoco
@@ -153,6 +154,7 @@ class CartTargetCommand(CommandTerm):
         self._external_override = target
 
 
+@dataclass(kw_only=True)
 class CartTargetCommandCfg(CommandTermCfg):
     entity_name: str = "cartpole"
     resampling_time_range: tuple = (3.0, 6.0)
