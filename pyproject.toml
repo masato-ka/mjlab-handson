@@ -1,0 +1,26 @@
+[project]
+name = "mjlab-handson"
+version = "0.1.0"
+description = "mjlabでPPO強化学習を学ぶハンズオン教材"
+requires-python = ">=3.10"
+dependencies = [
+    "mujoco>=3.2",
+    "onnxruntime>=1.18",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+# NVIDIA GPU(CUDA)を搭載したマシンでのみインストール可能な依存関係。
+# Notebookのセクション1〜4(PPO学習・ドメインランダム化・コマンド入力・
+# play_local.pyでの対話的確認)を実行する場合にのみ必要。
+# GPUを持たないマシンでは `uv sync` のみでよく、このグループは対象外。
+# GPU環境で実行する場合は `uv sync --extra gpu` を実行すること。
+gpu = [
+    "mjlab",
+    "rsl-rl-lib",
+    "wandb",
+    "mediapy",
+]
+
+[tool.uv]
+package = false
