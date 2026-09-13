@@ -117,6 +117,11 @@ def main():
 
     model = mujoco.MjModel.from_xml_path(args.xml)
     model.opt.timestep = PHYSICS_TIMESTEP
+    # 学習時(SimulationCfg(mujoco=MujocoCfg(..., disableflags=("contact",))))と同じく接触計算を無効化する。
+    # cartpole.xmlの見た目用レール(rail1/rail2)はカート本体のgeomと常時重なる位置にあり、
+    # contactを有効なままにすると学習時には存在しなかった接触反力が生じ、方策が経験していない
+    # 外乱でカートがレール端に押しやられてしまう。
+    model.opt.disableflags |= mujoco.mjtDisableBit.mjDSBL_CONTACT
     data = mujoco.MjData(model)
 
     session = ort.InferenceSession(args.onnx, providers=["CPUExecutionProvider"])
